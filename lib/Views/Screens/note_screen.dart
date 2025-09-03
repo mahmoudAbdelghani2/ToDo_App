@@ -95,28 +95,35 @@ class _NoteScreenState extends State<NoteScreen> {
                         ),
                       );
                     }
-                    return ListView.builder(
-                      itemCount: filtered.length,
-                      itemBuilder: (context, index) {
-                        final note = filtered[index];
-                        return ListWidget(note: note);
-                      },
-                    );
-                  } else if (state is NoteState) {
-                    return Center(
-                      child: Text(
-                        'فيه مشكلة عندك',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Number of notes: ${filtered.length}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: filtered.length,
+                            itemBuilder: (context, index) {
+                              final note = filtered[index];
+                              return ListWidget(note: note);
+                            },
+                          ),
+                        ],
                       ),
                     );
                   } else {
                     return Center(
                       child: Text(
-                        'فيه مشكلة عندك',
+                        'There was a problem loading notes',
                         style: TextStyle(
                           color: Colors.red,
                           fontSize: 18,

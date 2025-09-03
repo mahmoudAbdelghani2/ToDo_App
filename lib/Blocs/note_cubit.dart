@@ -22,4 +22,14 @@ class NoteCubit extends Cubit<NoteState> {
     notes.removeWhere((note) => note.id == noteId);
     loadNotes();
   }
+  void updateNote(NoteModel updatedNote) {
+    emit(LoadingNoteState());
+    int index = notes.indexWhere((note) => note.id == updatedNote.id);
+    if (index != -1) {
+      notes[index] = updatedNote;
+      loadNotes();
+    } else {
+      loadNotes();
+    }
+  }
 }

@@ -17,27 +17,55 @@ class _ListWidgetState extends State<ListWidget> {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      elevation: 8,
+      elevation: 12,
       shadowColor: Colors.black,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: ListTile(
         title: Text(
           widget.note.title,
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontWeight: !widget.note.isCompleted ? FontWeight.bold : FontWeight.normal,
+            fontSize: !widget.note.isCompleted ? 20 : 17,
             color: Colors.black,
+            decoration: widget.note.isCompleted
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationColor: Colors.red,
+            decorationThickness: 2.0,
           ),
         ),
         subtitle: Text(
           widget.note.description,
           style: TextStyle(
-            fontSize: 16,
+            fontSize: !widget.note.isCompleted ? 16 : 14,
             color: Colors.grey,
             fontWeight: FontWeight.bold,
+            decoration: widget.note.isCompleted
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationColor: Colors.red,
+            decorationThickness: 2.0,
           ),
         ),
-        leading: Image.asset("assets/images/note.png", width: 60, height: 60),
+        leading: SizedBox(
+          width: 120,
+          child: Row(
+            children: [
+              Checkbox(
+                value: widget.note.isCompleted,
+                activeColor: Colors.green,
+                checkColor: Colors.white,
+                onChanged: (bool? value) {
+                  context.read<NoteCubit>().updateNote(
+                    widget.note.copyWith(isCompleted: value ?? false),
+                  );
+                },
+              ),
+              SizedBox(width: 8),
+              Image.asset("assets/images/note.png", width: 60, height: 60),
+            ],
+          ),
+        ),
         trailing: BlocBuilder<NoteCubit, NoteState>(
           builder: (context, state) {
             return IconButton(

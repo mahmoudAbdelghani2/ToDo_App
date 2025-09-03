@@ -20,3 +20,8 @@ class DeletedNoteState extends NoteState {
   final int noteId;
   DeletedNoteState(this.noteId);
 }
+
+class UpdatedNoteState extends NoteState {
+  final NoteModel updatedNote;
+  UpdatedNoteState(this.updatedNote);
+}
